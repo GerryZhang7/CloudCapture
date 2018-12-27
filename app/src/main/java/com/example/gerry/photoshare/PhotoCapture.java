@@ -1,7 +1,9 @@
 package com.example.gerry.photoshare;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class PhotoCapture extends AppCompatActivity {
@@ -19,6 +21,12 @@ public class PhotoCapture extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+    }
+
+    public void takePicture(View view) {
+        Intent intent = new Intent(this, takePhoto.class);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     /**
