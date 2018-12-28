@@ -105,7 +105,7 @@ public class takePhoto extends AppCompatActivity {
         }
     }
 
-    //ADD PREVIEW IN XML LAYOUT TOMORROW 
+    //ADD PREVIEW IN XML LAYOUT TOMORROW
    /* private boolean safeCameraOpen(int id) {
         boolean qOpened = false;
 
