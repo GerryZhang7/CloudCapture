@@ -23,7 +23,7 @@ public class PhotoCapture extends AppCompatActivity {
         tv.setText(stringFromJNI());
     }
 
-    public void takePicture(View view) {
+    public void takePhoto(View view) {
         Intent intent = new Intent(this, takePhoto.class);
         startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -42,8 +43,8 @@ public class takePhoto extends AppCompatActivity {
         }
     }
 
-    //Using the camera API, see if we can open the camera.
-    public static Camera getCameraInstance(){
+    //Using the camera API, see if we can open the camera. USING OTHER FUNCTION FIRST. COMMENT THIS ONE FOR NOW
+   /* public static Camera getCameraInstance(){
         Camera c = null;
         try {
             c = Camera.open(); // attempt to get a Camera instance
@@ -53,7 +54,31 @@ public class takePhoto extends AppCompatActivity {
         }
         return c; // returns null if camera is unavailable
     }
+*/
 
+
+    private boolean safeCameraOpen(int id) {
+        boolean qOpened = false;
+
+        try {
+            releaseCameraAndPreview();
+            mCamera = Camera.open(id);
+            qOpened = (mCamera != null);
+        } catch (Exception e) {
+            Log.e(getString(R.string.app_name), "failed to open Camera");
+            e.printStackTrace();
+        }
+
+        return qOpened;
+    }
+
+    private void releaseCameraAndPreview() {
+        mPreview.setCamera(null);
+        if (mCamera != null) {
+            mCamera.release();
+            mCamera = null;
+        }
+    }
 
     public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
         private SurfaceHolder mHolder;
@@ -161,15 +186,14 @@ public class takePhoto extends AppCompatActivity {
 
     // Add a listener to the Capture button
     Button captureButton = (Button) findViewById(R.id.button_capture);
-    captureButton.setOnClickListener(
-        new View.OnClickListener() {
+    captureButton.setOnClickListener();
+        new OnClickListener() {
         @Override
         public void onClick(View v) {
             // get an image from the camera
             mCamera.takePicture(null, null, mPicture);
         }
     }
-);
 
     //ADD PREVIEW IN XML LAYOUT TOMORROW
    /* private boolean safeCameraOpen(int id) {
