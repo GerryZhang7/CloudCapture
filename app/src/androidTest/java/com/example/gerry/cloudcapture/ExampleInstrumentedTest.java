@@ -1,4 +1,4 @@
-package com.example.gerry.photoshare;
+package com.example.gerry.cloudcapture;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.gerry.photoshare", appContext.getPackageName());
+        assertEquals("com.example.gerry.cloudcapture", appContext.getPackageName());
     }
 }

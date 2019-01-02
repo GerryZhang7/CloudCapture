@@ -1,4 +1,4 @@
-package com.example.gerry.photoshare;
+package com.example.gerry.cloudcapture;
 
 import org.junit.Test;
 
