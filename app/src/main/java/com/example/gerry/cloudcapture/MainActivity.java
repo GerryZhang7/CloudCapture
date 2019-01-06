@@ -9,19 +9,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView result;
 
+    ImageButton imageButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      //  Button click = (Button)findViewById(R.id.camera);
-        // result = (ImageView)findViewById(R.id.imageView);
+
+        imageButton = (ImageButton)findViewById(R.id.imageView);
+        result = (ImageView)findViewById(R.id.imageView);
     }
 
 
@@ -30,17 +34,20 @@ public class MainActivity extends AppCompatActivity {
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            //This method will create an activity for the "result" which we will set to the photo taking screen
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             result.setImageBitmap(imageBitmap);
         }
     }
+
 
 }
