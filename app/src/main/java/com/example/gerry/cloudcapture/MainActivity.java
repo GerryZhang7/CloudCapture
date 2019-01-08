@@ -14,8 +14,7 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView result;
-
+    private ImageView result;
     ImageButton imageButton;
 
     @Override
