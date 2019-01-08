@@ -8,22 +8,22 @@
 
     <ImageButton
         android:id="@+id/imageView"
-        android:layout_width="99dp"
-        android:layout_height="94dp"
+        android:layout_width="86dp"
+        android:layout_height="77dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/photoIcon"
+        android:background="@drawable/photo"
         android:onClick="dispatchTakePictureIntent"
         android:textColor="@color/colorAccent"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.882"
+        app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.913" />
+        app:layout_constraintVertical_bias="0.936" />
 
     <TextView
         android:id="@+id/textView2"
@@ -45,22 +45,39 @@
 
     <ImageButton
         android:id="@+id/videoView"
-        android:layout_width="110dp"
-        android:layout_height="114dp"
+        android:layout_width="96dp"
+        android:layout_height="93dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/videoIcon"
-        android:onClick=""
+        android:background="@drawable/video"
         android:textColor="@color/colorAccent"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintHorizontal_bias="0.077"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.935" />
+        app:layout_constraintVertical_bias="0.947" />
+
+    <ImageButton
+        android:id="@+id/replay"
+        android:layout_width="86dp"
+        android:layout_height="77dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/replay"
+        android:textColor="@color/colorAccent"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.854" />
 
     <VideoView
         android:id="@+id/videoPlayBack"

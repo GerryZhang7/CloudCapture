@@ -2,6 +2,7 @@ package com.example.gerry.cloudcapture;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
     //Variable initialization
     private ImageView result;
     private VideoView mVideoPlayBack;
-    private ImageButton photoButton, recordButton;
+    ImageButton photoButton, recordButton;
+    private int ACTIVITY_START_CAMERA_APP = 0;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +38,21 @@ public class MainActivity extends AppCompatActivity {
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent takeVideo = new Intent();
+                takeVideo.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
 
+                startActivityForResult(takeVideo, ACTIVITY_START_CAMERA_APP);
             }
         });
 
-        photoButton.setOnClickListener(new View.OnClickListener() {
+        playVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mVideoPlayBack.start();
             }
         });
     }
 
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             result.setImageBitmap(imageBitmap);
+
+            //These lines control video playback
+            Uri videoUri = data.getData();
+            mVideoPlayBack.setVideoURI(videoUri);
         }
     }
 
