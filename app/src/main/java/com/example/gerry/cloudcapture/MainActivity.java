@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     //Variable initialization
     private ImageView result;
     private VideoView mVideoPlayBack;
-    ImageButton photoButton, recordButton;
+    ImageButton photoButton, recordButton, playVideoButton;
     private int ACTIVITY_START_CAMERA_APP = 0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
@@ -30,10 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
         //This creates the initialization for the camera on app startup
         photoButton = (ImageButton)findViewById(R.id.imageView);
-        result = (ImageView)findViewById(R.id.imageView);
-
         recordButton = (ImageButton) findViewById(R.id.videoView);
+        playVideoButton = (ImageButton) findViewById(R.id.replay);
+
         mVideoPlayBack = (VideoView) findViewById(R.id.videoPlayBack);
+        result = (ImageView)findViewById(R.id.imageView);
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void dispatchTakePictureIntent(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             result.setImageBitmap(imageBitmap);
-
+        }
+        else if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             //These lines control video playback
             Uri videoUri = data.getData();
             mVideoPlayBack.setVideoURI(videoUri);
