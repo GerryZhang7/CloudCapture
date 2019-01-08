@@ -11,20 +11,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Variable initialization
     private ImageView result;
-    ImageButton imageButton;
+    private VideoView mVideoPlayBack;
+    private ImageButton photoButton, recordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        imageButton = (ImageButton)findViewById(R.id.imageView);
+        //This creates the initialization for the camera on app startup
+        photoButton = (ImageButton)findViewById(R.id.imageView);
         result = (ImageView)findViewById(R.id.imageView);
+
+        recordButton = (ImageButton) findViewById(R.id.videoView);
+        mVideoPlayBack = (VideoView) findViewById(R.id.videoPlayBack);
+
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 

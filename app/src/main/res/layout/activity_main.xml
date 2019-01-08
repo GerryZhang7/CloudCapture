@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@+id/imageView"
-        android:layout_width="110dp"
-        android:layout_height="114dp"
+        android:layout_width="99dp"
+        android:layout_height="94dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
@@ -20,10 +20,10 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.892"
+        app:layout_constraintHorizontal_bias="0.882"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937" />
+        app:layout_constraintVertical_bias="0.913" />
 
     <TextView
         android:id="@+id/textView2"
@@ -39,10 +39,9 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.218" />
+        app:layout_constraintVertical_bias="0.108" />
 
     <ImageButton
         android:id="@+id/videoView"
@@ -53,7 +52,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/videoIcon"
-        android:onClick="dispatchTakePictureIntent"
+        android:onClick=""
         android:textColor="@color/colorAccent"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -62,6 +61,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.935" />
+
+    <VideoView
+        android:id="@+id/videoPlayBack"
+        android:layout_width="334dp"
+        android:layout_height="345dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.449" />
 
 </android.support.constraint.ConstraintLayout>
 
