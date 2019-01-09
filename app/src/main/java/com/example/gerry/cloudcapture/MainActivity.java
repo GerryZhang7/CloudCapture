@@ -17,7 +17,7 @@ import android.widget.VideoView;
 public class MainActivity extends AppCompatActivity {
 
     //Variable initialization
-    private ImageView result;
+    private ImageView mImageView;
     private VideoView mVideoPlayBack;
     ImageButton photoButton, recordButton, playVideoButton;
     private int ACTIVITY_START_CAMERA_APP = 0;
@@ -29,15 +29,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //This creates the initialization for the camera on app startup
-        photoButton = (ImageButton)findViewById(R.id.imageView);
+        photoButton = (ImageButton)findViewById(R.id.photo);
         recordButton = (ImageButton) findViewById(R.id.videoView);
         playVideoButton = (ImageButton) findViewById(R.id.replay);
 
         mVideoPlayBack = (VideoView) findViewById(R.id.videoPlayBack);
-        result = (ImageView)findViewById(R.id.imageView);
+        mImageView = (ImageView)findViewById(R.id.imageView);
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
+
+            //The purpose of this function is to begin recording as soon as
             public void onClick(View v) {
                 Intent takeVideo = new Intent();
                 takeVideo.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            result.setImageBitmap(imageBitmap);
+            mImageView.setImageBitmap(imageBitmap);
         }
         else if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             //These lines control video playback
