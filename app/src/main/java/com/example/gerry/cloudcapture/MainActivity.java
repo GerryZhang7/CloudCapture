@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
             }else
             {
-                displayMessage(getBaseContext(),"Nullll");
+                displayMessage(getBaseContext(),"Null");
             }
         }
 
@@ -178,20 +178,15 @@ public class MainActivity extends AppCompatActivity {
             Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
             mImageView.setImageBitmap(myBitmap);
         }
-        else
-        {
-            displayMessage(getBaseContext(),"Request cancelled or something went wrong.");
-        }
-       /* if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            mImageView.setImageBitmap(imageBitmap);
-        }
         else if (requestCode == ACTIVITY_START_CAMERA_APP && resultCode == RESULT_OK) {
             //These lines control video playback
             Uri videoUri = data.getData();
             mVideoPlayBack.setVideoURI(videoUri);
-        }*/
+        }
+        else {
+            displayMessage(getBaseContext(),"Request cancelled.");
+        }
+       
     }
 
     private void galleryAddPic() {
