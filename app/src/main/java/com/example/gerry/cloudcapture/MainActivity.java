@@ -2,6 +2,7 @@ package com.example.gerry.cloudcapture;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
     //Variable initialization
     private ImageView mImageView;
     private VideoView mVideoPlayBack;
-    ImageButton photoButton, recordButton, playVideoButton;
+    private String mCurrentPhotoPath = "";
     private int ACTIVITY_START_CAMERA_APP = 0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private String mCurrentPhotoPath = "";
+
+    Integer SELECT_FILE = 2;
+    ImageButton photoButton, recordButton, playVideoButton;
 
     Uri photoURI = null;
     File photoFile = null;
@@ -55,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
         mVideoPlayBack = (VideoView) findViewById(R.id.videoPlayBack);
         mImageView = (ImageView)findViewById(R.id.imageView);
 
+        //Begins recording as soon as the video button is pressed.
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
 
-            //The purpose of this function is to begin recording as soon as
             public void onClick(View v) {
                 Intent takeVideo = new Intent();
                 takeVideo.setAction(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -73,55 +77,47 @@ public class MainActivity extends AppCompatActivity {
                 mVideoPlayBack.start();
             }
         });
-    }
-/*
-    // Uncomment this function if app doesn't take photo
-    public void dispatchTakePictureIntent(View view) {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            //This method will create an activity for the "result" which we will set to the photo taking screen
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-*/
-
-
-
-    /*
-    // IF NEXT IMPLEMENTATION DOES NOT WORK UNCOMMENT THIS FUNCTION
-    static final int REQUEST_TAKE_PHOTO = 1;
-    //Change this function to public if it doesn't work
-    public void dispatchTakePictureIntent(View view) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
-        }
-
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Creates the file that will store pictures
-            File photoFile = null;
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Toast.makeText(this, "Photo file could not be created. Please try again.", Toast.LENGTH_SHORT).show();
-                return;
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
             }
+        });
+    }
 
-            // Checks to see if the file was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.fileprovider", photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+    private void selectImage(){
+
+        final CharSequence[] items={"Camera","Gallery", "Cancel"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Add Image");
+
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (items[i].equals("Camera")) {
+
+                    dispatchTakePictureIntent();
+
+                } else if (items[i].equals("Gallery")) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, SELECT_FILE);
+
+                } else if (items[i].equals("Cancel")) {
+                    dialogInterface.dismiss();
+                }
             }
-        }
-    }*/
+        });
+        builder.show();
+
+    }
 
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    public void dispatchTakePictureIntent(View view) {
+    public void dispatchTakePictureIntent() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
@@ -183,10 +179,14 @@ public class MainActivity extends AppCompatActivity {
             Uri videoUri = data.getData();
             mVideoPlayBack.setVideoURI(videoUri);
         }
+        else if (requestCode == SELECT_FILE) {
+            Uri selectedImageUri = data.getData();
+            mImageView.setImageURI(selectedImageUri);
+        }
         else {
             displayMessage(getBaseContext(),"Request cancelled.");
         }
-       
+
     }
 
     private void galleryAddPic() {
@@ -215,5 +215,25 @@ public class MainActivity extends AppCompatActivity {
     {
         Toast.makeText(context,message,Toast.LENGTH_LONG).show();
     }
+
+   /* @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu_add_image, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}*/
 
 }
