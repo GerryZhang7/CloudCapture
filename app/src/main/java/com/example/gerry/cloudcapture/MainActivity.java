@@ -121,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    private void dispatchTakePictureIntent()
-    {
+    public void dispatchTakePictureIntent(View view) {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
@@ -208,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                dispatchTakePictureIntent();
+                //dispatchTakePictureIntent();
             }
             else {
                 displayMessage(getBaseContext(), "Please enable the camera to use this app");
