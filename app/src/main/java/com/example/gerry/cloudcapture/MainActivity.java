@@ -1,6 +1,7 @@
 package com.example.gerry.cloudcapture;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -28,8 +30,10 @@ import android.widget.VideoView;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,17 +43,21 @@ public class MainActivity extends AppCompatActivity {
     private String mCurrentPhotoPath = "";
     private int ACTIVITY_START_CAMERA_APP = 0;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    private int STORAGE_PERMISSION_CODE = 2;
     Integer SELECT_FILE = 2;
     ImageButton photoButton, recordButton, playVideoButton;
 
     Uri photoURI = null;
     File photoFile = null;
 
+    private
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkStoragePermissions();
 
         //This creates the initialization for the camera on app startup
         photoButton = (ImageButton)findViewById(R.id.photo);
@@ -84,6 +92,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void checkStoragePermissions() {
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
+        }
+    }
+
+
+
+    //PERMISSION GRANTING. This needs to be fixed later. Maybe can be fixed by right-clicking -> generate-> overload method -> onRequestPermissionsResult
+/*    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        //Checking the request code of our request
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+                Toast.makeText(this, "Permission granted! You may now upload photos", Toast.LENGTH_LONG).show();
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(this, "Please enable storage access to upload photos saved on your device", Toast.LENGTH_LONG).show();
+            }
+        }
+    }*/
+
+
 
     private void selectImage(){
 
@@ -157,6 +197,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+   /* public void postData() {
+        // Create a new HttpClient and Post Header
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://www.yoursite.com/script.php");
+
+        try {
+            // Add your data
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            nameValuePairs.add(new BasicNameValuePair("id", "12345"));
+            nameValuePairs.add(new BasicNameValuePair("stringdata", "Hi"));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+        }
+    }*/
+
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp +"_";
@@ -218,20 +282,15 @@ public class MainActivity extends AppCompatActivity {
 
    /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_add_image, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
-
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }*/
