@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -28,11 +29,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     Uri photoURI = null;
     File photoFile = null;
 
-    private
+    private static final String URL = "http://cloudcapture.ca/";
+    private Uri filePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +256,52 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+    private String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+
+        document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+        cursor.close();
+
+        cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ?",
+                new String[] {document_id}, null
+        );
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+        return path;
+    }
+
+    private void uploadImage() {
+        // If you want to implement a naming function it's this line --> String name = editText.getText().toString().trim();
+        String path = getPath(filePath);
+
+        try {
+            String uploadid = UUID.randomUUID().toString();
+
+            new MultipartUploadRequest(this, uploadid, URL)
+                    .addFileToUpload(path, "image").addparameter("name", name)
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .setMaxRetries(2)
+                    .startUpload();
+        } catch (Exception e) {
+
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if(view == buttonUpload) {
+            uploadImage();
+        }
+        if (view == buttonChoose) {
+            showFileChooser();
+        }
+    }
+
 
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
